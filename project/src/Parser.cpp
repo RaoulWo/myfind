@@ -1,7 +1,7 @@
 #include "Parser.h"
 
 #include <algorithm>
-#include <getopt.h>
+#include <unistd.h>
 #include <iostream>
 #include <stdexcept>
 
@@ -39,6 +39,20 @@ namespace MyFind
         return this->filenames;
     }
 
+    void Parser::LogResults() const
+    {
+        std::cout << "IsCaseInsensitive() " << this->IsCaseInsensitive() << std::endl;
+        std::cout << "IsRecursiveMode() " << this->IsRecursiveMode() << std::endl;
+        std::cout << "GetProgram() " << this->GetProgram() << std::endl;
+        std::cout << "GetSearchpath() " << this->GetSearchpath() << std::endl;
+        std::cout << "GetFilenames() ";
+        for (const std::string& filename : this->GetFilenames())
+        {
+            std::cout << filename << ' ';
+        }
+        std::cout << std::endl;
+    }
+
     void Parser::ParseOptions(int argc, char* argv[], const char* optstring)
     {
         try
@@ -47,6 +61,7 @@ namespace MyFind
         }
         catch(const std::runtime_error& e)
         {
+            this->PrintUsage(argv[0]);
             std::cerr << e.what() << '\n';
             exit(EXIT_FAILURE);
         }
@@ -61,13 +76,15 @@ namespace MyFind
             switch (option)
             {
                 case ('i'):
+                    if (this->caseInsensitive) throw std::runtime_error("ERROR: Multiple use of option -i");
                     this->caseInsensitive = true;
                     break;
                 case('R'):
+                    if (this->recursiveMode) throw std::runtime_error("ERROR: Multiple use of option -R");
                     this->recursiveMode = true;
                     break;
                 default:
-                    throw std::runtime_error("Invalid options"); 
+                    throw std::runtime_error("ERROR: Invalid options"); 
             }
         }
     }
@@ -80,6 +97,7 @@ namespace MyFind
         }
         catch(const std::runtime_error& e)
         {
+            this->PrintUsage(argv[0]);
             std::cerr << e.what() << '\n';
             exit(EXIT_FAILURE);
         }
@@ -91,7 +109,7 @@ namespace MyFind
         // Extract program name
         this->program = argv[0];
 
-        if (argc <= 1) throw std::runtime_error("Invalid arguments");
+        if (argc <= 1) throw std::runtime_error("ERROR: Invalid arguments");
         
         // Extract options (-i, -R, -iR, -Ri)
         std::vector<std::string> vec;
@@ -125,19 +143,24 @@ namespace MyFind
             if (it2 != vec.end()) vec.erase(it2); 
         }
 
-        if (vec.size() == 0) throw std::runtime_error("Invalid arguments");
+        if (vec.size() == 0) throw std::runtime_error("ERROR: Invalid arguments");
 
         // Extract searchpath
         this->searchpath = vec.at(0);
         vec.erase(vec.begin());
 
-        if (vec.size() == 0) throw std::runtime_error("Invalid arguments");
+        if (vec.size() == 0) throw std::runtime_error("ERROR: Invalid arguments");
 
         // Extract filenames
         for (const std::string& filename : vec)
         {
             this->filenames.push_back(filename);
         }
+    }
+
+    void Parser::PrintUsage(std::string program) const
+    {
+        std::cout << program << " [-i] [-R] path file1 [file2 file3 ...]" << std::endl;
     }
 
 }
