@@ -41,11 +41,11 @@ namespace MyFind
 
     void Parser::LogResults() const
     {
-        std::cout << "IsCaseInsensitive() " << this->IsCaseInsensitive() << std::endl;
-        std::cout << "IsRecursiveMode() " << this->IsRecursiveMode() << std::endl;
-        std::cout << "GetProgram() " << this->GetProgram() << std::endl;
-        std::cout << "GetSearchpath() " << this->GetSearchpath() << std::endl;
-        std::cout << "GetFilenames() ";
+        std::cout << "IsCaseInsensitive()    " << this->IsCaseInsensitive() << std::endl;
+        std::cout << "IsRecursiveMode()      " << this->IsRecursiveMode() << std::endl;
+        std::cout << "GetProgram()           " << this->GetProgram() << std::endl;
+        std::cout << "GetSearchpath()        " << this->GetSearchpath() << std::endl;
+        std::cout << "GetFilenames()         ";
         for (const std::string& filename : this->GetFilenames())
         {
             std::cout << filename << ' ';
