@@ -12,8 +12,14 @@ int main(int argc, char* argv[])
     parser->LogResults();
 
     // Fork child processes for each filename
-    std::shared_ptr<MyFind::IForker> forker = std::make_shared<MyFind::Forker>(parser->GetFilenames());
+    std::shared_ptr<MyFind::IForker> forker = std::make_shared<MyFind::Forker>(
+        parser->GetSearchpath(),
+        parser->GetFilenames(),
+        parser->IsCaseInsensitive(),
+        parser->IsRecursiveMode());
     forker->Fork();
     
+    // while (wait(NULL));
+
     return 0;
 }

@@ -4,12 +4,21 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <filesystem> // Anschauen
+
 namespace MyFind
 {
 
-    Forker::Forker(std::vector<std::string> filenames)
+    Forker::Forker(
+            std::string searchpath, 
+            std::vector<std::string> filenames, 
+            bool caseInsensitive, 
+            bool recursiveMode)
     { 
+        this->searchpath = searchpath;
         this->filenames = filenames;
+        this->caseInsensitive = caseInsensitive;
+        this->recursiveMode = recursiveMode;
     }
 
     void Forker::Fork() const
@@ -39,8 +48,7 @@ namespace MyFind
     void Forker::Child(std::string filename) const
     {
         // TODO -> Search for file
-        
-
+        std::cout << filename << '\n';
 
         exit(EXIT_SUCCESS);
     }
