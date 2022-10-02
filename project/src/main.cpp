@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     // Parse the command line parameters
     std::shared_ptr<MyFind::IParser> parser = std::make_shared<MyFind::Parser>();
     parser->Parse(argc, argv, "iR");
-    parser->LogResults();
+    // parser->LogResults();
 
     // Fork child processes for each filename
     std::shared_ptr<MyFind::IForker> forker = std::make_shared<MyFind::Forker>(
@@ -19,7 +19,5 @@ int main(int argc, char* argv[])
         parser->IsRecursiveMode());
     forker->Fork();
     
-    // while (wait(NULL));
-
     return 0;
 }
