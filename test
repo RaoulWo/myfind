@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Make the project
+echo 'Make the project'
+(cd ./project && make clean && make)
+echo ''
+
+# Test 1
+echo 'Run Test 1: ./project/bin/myfind ./files file1 file2 file3 file4 file5 files'
+./project/bin/myfind ./files file1 file2 file3 file4 file5 files
+echo ''
+
+# Test 2
+echo 'Run Test 2: ./project/bin/myfind ./files File1 File2 File3 File4 File5 Files'
+./project/bin/myfind ./files File1 File2 File3 File4 File5 Files
+echo ''
+
+# Test 3
+echo 'Run Test 3: ./project/bin/myfind -i ./files File1 File2 File3 File4 File5 Files'
+./project/bin/myfind -i ./files File1 File2 File3 File4 File5 Files
+echo ''
+
+# Test 4
+echo 'Run Test 4: ./project/bin/myfind ./files file6 file7 file8 file9'
+./project/bin/myfind ./files file6 file7 file8 file9
+echo ''
+
+# Test 5
+echo 'Run Test 5: ./project/bin/myfind -R ./files file6 file7 file8 file9'
+./project/bin/myfind -R ./files file6 file7 file8 file9
+echo ''
+
+# Test 6
+echo 'Run Test 6: ./project/bin/myfind -iR ./files FILE1 FILE2 FILE3 FILE4 FILE5 FILES FILE6 FILE7 FILE8 FILE9'
+./project/bin/myfind -iR ./files FILE1 FILE2 FILE3 FILE4 FILE5 FILES FILE6 FILE7 FILE8 FILE9
+echo ''
